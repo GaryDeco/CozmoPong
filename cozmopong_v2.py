@@ -109,6 +109,7 @@ def get_ball(surface, ball_size):
                   )
 
 def ball_start():
+    #TODO could use refinement
 	global ball_speedx, ball_speedy
 
 	ball.center = (SCREEN_CENTER[0],SCREEN_CENTER[1]) 
@@ -119,12 +120,12 @@ def animate_ball(ball):
     '''
     Set ball speed and collision boundaries
     '''
+    #TODO need to improve the ball - paddle collision and speed
+
     global ball_speedx, ball_speedy, PAD1_SCORE, PAD2_SCORE
     
     ball.x += ball_speedx
     ball.y += ball_speedy
-
- 
 
     if ball.top <=0 or ball.bottom >=screen_size[1]:
         ball_speedy *= -1
@@ -135,20 +136,17 @@ def animate_ball(ball):
         ball_start()
         PAD2_SCORE += 1
 
-
     if ball.right >= screen_size[0]:
         score.set_volume(PLAYER_SCORED/10)
         play_sound(score)
         ball_start()
         PAD1_SCORE +=1
-
-        
+    
     if ball.colliderect(pad1) or ball.colliderect(pad2):
         pad_strike.set_volume(PADDLE_STRIKE/10)
         play_sound(pad_strike)
         ball_speedx *= -1
 
- 
 def draw_ball(surface, color, ball):
     '''
     Draw a ball center screen with the desired color
@@ -165,7 +163,8 @@ def animate_paddles():
     if pad1.bottom >= screen_size[1]:
         pad1.bottom = screen_size[1]
       
-    # ai animation    
+    # ai animation  
+    # #TODO this could be improved a lot  
     if pad2.top < ball.y:
         pad2.y += SET_AI_PADDLE_SPEED
     if pad2.bottom > ball.y:
@@ -257,14 +256,14 @@ def play_sound(sound):
     pg.mixer.Sound.play(sound)
 
 
-
+# a simple settings report
 print(f"Ball Speed set to {BALL_SPEED}")
 print(f"Paddle 1 Speed set to {SET_PADDLE1_SPEED}")
 print(f"AI speed set to {SET_AI_PADDLE_SPEED}")
 
 # scale the paddles and ball to screen size
 pad_size = [int(SCREEN_SIZE[0]*0.008), int(SCREEN_SIZE[1]*0.15)]
-ball_size = [int(SCREEN_SIZE[0]*0.02), int(SCREEN_SIZE[0]*0.02)]
+ball_size = [int(SCREEN_SIZE[0]*0.02), int(SCREEN_SIZE[0]*0.02)] # ball width = ball height
 
 # create paddles and ball
 pad1 = get_paddle(screen, pad_size, side='left')
@@ -276,7 +275,7 @@ ball = get_ball(screen, ball_size)
 PADDLE1_SPEED = 0
 
 # add text font
-game_font = pg.font.Font(None, 40)
+game_font = pg.font.Font(None, 40) #TODO scale this
 
 ball_speedx = BALL_SPEED * rand.choice((1, -1))
 ball_speedy = ball_speedx * rand.choice((1, -1))
