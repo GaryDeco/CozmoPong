@@ -5,6 +5,12 @@
 **Date Created:** 12 JUNE 2022
 **Description:** A basic remake based on  "Pong", created by Atari founder Nolan Bushnell.
 
+## Announcements
+---
+**Version 3 coming soon!**
+
+---
+
 ## Development Notes
 
 **Version 1**:
@@ -26,7 +32,7 @@
 * Add sprite sheet for some better visuals
 * Add some enhanced effects i.e. ball trail and impact effect on paddle
 * Add sound effects
-* Add background music
+* ~~Add background music~~
 * Add scoring log to keep track of players and achievements. 
 * Make an executable
 * Add joystick and controller support (partiallly tested already)

@@ -6,8 +6,8 @@ import os
 pg.init()
 
 #constants
-WIDTH = 1000
-HEIGHT = 800
+WIDTH = 1280
+HEIGHT = 960
 SCREEN_SIZE = [WIDTH, HEIGHT]
 SCREEN_CENTER = [int(xy/2) for xy in SCREEN_SIZE]
 FPS = 60
@@ -25,6 +25,10 @@ MAX_SCORE = 5
 # paddle 1 (left)
 PAD1_UP_KEY = pg.K_w # w key
 PAD1_DOWN_KEY = pg.K_s # s key
+
+# Sound effects volume (0-10)
+PLAYER_SCORED = 2
+PADDLE_STRIKE = 8
 
 #---------------------------
 #colors  RGB (R  , G  , B  )
@@ -120,20 +124,28 @@ def animate_ball(ball):
     ball.x += ball_speedx
     ball.y += ball_speedy
 
+ 
+
     if ball.top <=0 or ball.bottom >=screen_size[1]:
         ball_speedy *= -1
         
     if ball.left <=0: 
+        score.set_volume(PLAYER_SCORED/10)
+        play_sound(score)
         ball_start()
         PAD2_SCORE += 1
 
 
     if ball.right >= screen_size[0]:
+        score.set_volume(PLAYER_SCORED/10)
+        play_sound(score)
         ball_start()
         PAD1_SCORE +=1
 
         
     if ball.colliderect(pad1) or ball.colliderect(pad2):
+        pad_strike.set_volume(PADDLE_STRIKE/10)
+        play_sound(pad_strike)
         ball_speedx *= -1
 
  
@@ -229,14 +241,21 @@ def draw_centerline():
 def play_music(music, loop):
 
     basedir = os.getcwd()
-
     filedir = (str(basedir) + "\\assets\\music\\")
-
     path_to_file = (str(filedir) + str(music) + ".mp3")
-
     music = pg.mixer.music.load(path_to_file)
-
     pg.mixer.music.play(loop)
+
+def get_sound(sound):
+
+    basedir = os.getcwd()
+    filedir = (str(basedir) + "\\assets\\sound\\")
+    path_to_file = (str(filedir) + str(sound) + ".mp3")
+    return pg.mixer.Sound(path_to_file)
+
+def play_sound(sound):
+    pg.mixer.Sound.play(sound)
+
 
 
 print(f"Ball Speed set to {BALL_SPEED}")
@@ -259,11 +278,13 @@ PADDLE1_SPEED = 0
 # add text font
 game_font = pg.font.Font(None, 40)
 
-ball_speedx = BALL_SPEED
-ball_speedy = ball_speedx
+ball_speedx = BALL_SPEED * rand.choice((1, -1))
+ball_speedy = ball_speedx * rand.choice((1, -1))
 
-#play background music
+#play background music and get sound effects
 play_music('bkg_music1', loop=True)
+score = get_sound('score')
+pad_strike = get_sound('pad_strike')
 
 ############################## Game Loop ####################################
 
