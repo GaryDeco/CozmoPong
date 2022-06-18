@@ -1,12 +1,13 @@
 import pygame as pg
 import numpy as np
 import random as rand 
+import os
 
 pg.init()
 
 #constants
-WIDTH = 1280
-HEIGHT = 960
+WIDTH = 1000
+HEIGHT = 800
 SCREEN_SIZE = [WIDTH, HEIGHT]
 SCREEN_CENTER = [int(xy/2) for xy in SCREEN_SIZE]
 FPS = 60
@@ -36,6 +37,7 @@ fps_clock = pg.time.Clock()
 screen = pg.display.set_mode(SCREEN_SIZE)
 screen_size = np.array([WIDTH, HEIGHT])
 pg.display.set_caption(TITLE + " FPS: " + str(fps_clock.get_fps()))
+
 
 # define flags
 game_over = False
@@ -224,6 +226,18 @@ def draw_scores():
 def draw_centerline():
     pg.draw.aaline(screen, RGB('grey'), (screen_size[0] / 2, 0),(screen_size[0] / 2, screen_size[1]))
 
+def play_music(music, loop):
+
+    basedir = os.getcwd()
+
+    filedir = (str(basedir) + "\\assets\\music\\")
+
+    path_to_file = (str(filedir) + str(music) + ".mp3")
+
+    music = pg.mixer.music.load(path_to_file)
+
+    pg.mixer.music.play(loop)
+
 
 print(f"Ball Speed set to {BALL_SPEED}")
 print(f"Paddle 1 Speed set to {SET_PADDLE1_SPEED}")
@@ -248,6 +262,9 @@ game_font = pg.font.Font(None, 40)
 ball_speedx = BALL_SPEED
 ball_speedy = ball_speedx
 
+#play background music
+play_music('bkg_music1', loop=True)
+
 ############################## Game Loop ####################################
 
 while not game_over:
@@ -268,7 +285,7 @@ while not game_over:
      
     # fill screen background on each frame     
     screen.fill(BACKGROUND_COLOR) 
-    
+ 
     # animate the ball and paddles
     animate_ball(ball)
     animate_paddles()
