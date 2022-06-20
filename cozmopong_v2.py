@@ -141,11 +141,27 @@ def animate_ball(ball):
         play_sound(score)
         ball_start()
         PAD1_SCORE +=1
-    
-    if ball.colliderect(pad1) or ball.colliderect(pad2):
-        pad_strike.set_volume(PADDLE_STRIKE/10)
-        play_sound(pad_strike)
-        ball_speedx *= -1
+   
+    # account for collision with top of paddle
+    if ball.colliderect(pad2) and ball_speedx > 0: # ball moving right
+        if abs(ball.right - pad2.left) < pad_size[0]: # fix top collision
+            pad_strike.set_volume(PADDLE_STRIKE/10)
+            play_sound(pad_strike)
+            ball_speedx *= -1
+        elif abs(ball.bottom - pad2.top) < pad_size[0] and ball_speedy > 0:
+            ball_speedy *= -1
+        elif abs(ball.top- pad2.bottom) < pad_size[0] and ball_speedy < 0:
+            ball_speedy *= -1
+
+    if ball.colliderect(pad1) and ball_speedx < 0: # ball moving left
+        if abs(ball.left - pad1.right) < pad_size[0]: # fix top collision
+            pad_strike.set_volume(PADDLE_STRIKE/10) 
+            play_sound(pad_strike)
+            ball_speedx *= -1
+        elif abs(ball.bottom - pad1.top) < pad_size[0] and ball_speedy > 0:
+            ball_speedy *= -1
+        elif abs(ball.top- pad1.bottom) < pad_size[0] and ball_speedy < 0:
+            ball_speedy *= -1
 
 def draw_ball(surface, color, ball):
     '''
@@ -257,13 +273,19 @@ def play_sound(sound):
 
 
 # a simple settings report
+print(f"\n-------- Settings ---------")
 print(f"Ball Speed set to {BALL_SPEED}")
 print(f"Paddle 1 Speed set to {SET_PADDLE1_SPEED}")
 print(f"AI speed set to {SET_AI_PADDLE_SPEED}")
 
+
 # scale the paddles and ball to screen size
 pad_size = [int(SCREEN_SIZE[0]*0.008), int(SCREEN_SIZE[1]*0.15)]
 ball_size = [int(SCREEN_SIZE[0]*0.02), int(SCREEN_SIZE[0]*0.02)] # ball width = ball height
+
+print(f"Screen size:(w= {SCREEN_SIZE[0]}, h= {SCREEN_SIZE[1]})")
+print(f"Paddle size:(w= {pad_size[0]}, h= {pad_size[1]})")
+print(f"Ball size:(w= {ball_size[0]}, h= {ball_size[1]})")
 
 # create paddles and ball
 pad1 = get_paddle(screen, pad_size, side='left')
