@@ -2,7 +2,9 @@
 #### *Built with Python using the Pygame library*
 
 **Author:** Gary Decosmo
+
 **Date Created:** 12 JUNE 2022
+
 **Description:** A basic remake based on  "Pong", created by Atari founder Nolan Bushnell.
 
 ## Announcements
