@@ -24,7 +24,7 @@
 * Added scoring display and offsets
 * Added score limit
 * Added scalers for paddle and ball for dynamic resizing if screen dims are changed.
-* Added spund effects
+* Added sound effects
 * Added background music (only for personal use!, clipped from you tube)
 * Game is fully functional with AI responding (not ideally but working)
 * Needs improved AI
